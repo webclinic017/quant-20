@@ -5,7 +5,7 @@
 # @File : mission_check_daily_info.py
 # @Project : data-analysis
 '''
-任务：检查指定指数在特定区间内的日交易数据是否被完整下载
+任务：检查指定股票在特定区间内的日交易数据是否被完整下载
 '''
 
 import datetime
@@ -54,11 +54,11 @@ if __name__ == '__main__':
     if len(sys.argv) <= 1:
         start_date = datetime.datetime.now()
         end_date = datetime.datetime.now()
-        ts_codes = all_index_code(engine_finance_db)['ts_code']
+        ts_codes = all_ts_code(engine_finance_db)['ts_code']
     elif len(sys.argv) == 3:
         start_date = datetime.datetime.strptime(sys.argv[1], "%Y%m%d")
         end_date = datetime.datetime.strptime(sys.argv[2], "%Y%m%d")
-        ts_codes = all_index_code(engine_finance_db)['ts_code']
+        ts_codes = all_ts_code(engine_finance_db)['ts_code']
     elif len(sys.argv) == 4:
         start_date = datetime.datetime.strptime(sys.argv[1], "%Y%m%d")
         end_date = datetime.datetime.strptime(sys.argv[2], "%Y%m%d")
