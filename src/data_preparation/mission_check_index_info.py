@@ -21,18 +21,20 @@ def process_single_stock(start_date, end_date, ts_code):
     frame_daily_info = pd.read_sql_query("select distinct trade_date from t_daily_info where trade_date >= '{0}' and trade_date <='{1}' and ts_code='{2}'".format(
         datetime.datetime.strftime(start_date, '%Y-%m-%d'), datetime.datetime.strftime(end_date, '%Y-%m-%d'), ts_code),
                               engine_finance_db)
-
     records = list()
     for e in frame_trade_cal['cal_date'].values:
         tag = e in frame_daily_info['trade_date'].values
-        records.append({'ts_code': ts_code, 'trade_date': e, 'is_down': tag})
+        records.append({'ts_code': ts_code, 'trade_date': e, 'is_down': tag, 'create_time': datetime.datetime.now()})
     pd.DataFrame.from_records(records) \
         .to_sql("t_daily_info_down_log", engine_log_db, index=None, if_exists='append',chunksize=300)
-
+    # con = engine_log_db.connect()
+    # con.execute("delete from t_daily_info_down_log where ts_code ='{0}'".format(ts_code))
+    # con.close()
 
 def mission(start_date, end_date, ts_codes):
     for ts_code in ts_codes:
         process_single_stock(start_date, end_date, ts_code)
+        logger.info("指数%s在%s---%s期间的数据下载情况检测完毕", ts_code, start_date, end_date)
 
 
 if __name__ == '__main__':

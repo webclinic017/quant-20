@@ -21,7 +21,7 @@ from common_tool import *
 
 def process_single_stock(start_date, end_date, ts_code):
     frame = pd.read_sql_query(
-        "select trade_date  from t_daily_info_down_log where trade_date >= '{0}' and trade_date <= '{1}' and is_down = false and ts_code = '{2}' and is_confirm is null order by trade_date".format(
+        "select trade_date  from t_daily_info_down_log where trade_date >= '{0}' and trade_date <= '{1}' and is_down = false and ts_code = '{2}' and is_confirm is true order by trade_date".format(
             datetime.datetime.strftime(start_date, '%Y-%m-%d'), datetime.datetime.strftime(end_date, '%Y-%m-%d'),
             ts_code), engine_log_db)
     if len(frame) == 0:
@@ -49,7 +49,7 @@ def process_single_stock(start_date, end_date, ts_code):
     conn = engine_log_db.connect()
     try:
         for record in duration_list:
-            df = pro.daily(ts_code=ts_code, start_date=datetime.datetime.strftime(record['start'], "%Y%m%d"),
+            df = pro.index_daily(ts_code=ts_code, start_date=datetime.datetime.strftime(record['start'], "%Y%m%d"),
                            end_date=datetime.datetime.strftime(record['end'], "%Y%m%d"))
             # print(df)
 
