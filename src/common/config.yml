@@ -1,0 +1,12 @@
+# tushare的token
+ts:
+  token: fe2778b24a39239059fc406c2425c3322ba72919c541fd7215de1393
+
+pg:
+  host: 119.91.65.7
+  port: 5432
+  username: postgres
+  password: zhangcc
+  dbname:
+    finance: finance_db
+    log: mission_db

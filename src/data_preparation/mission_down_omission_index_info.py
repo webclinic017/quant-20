@@ -98,7 +98,7 @@ def process_single_stock(start_date, end_date, ts_code):
     except Exception as e:
         logger.error(e)
         if '抱歉' in str(e):
-            logger.warn("请求频次过高，暂停30秒。")
+            logger.warn("请求频次过高，暂停60秒。")
             time.sleep(60)
     finally:
         conn.close()

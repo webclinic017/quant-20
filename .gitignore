@@ -140,3 +140,5 @@ cython_debug/
 
 !/src/data_preparation/config.yml
 !/src/data_preparation/logging.log
+!/src/common/config.yml
+!/src/common/logging.conf
