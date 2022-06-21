@@ -21,7 +21,7 @@ from common_tool import *
 
 def process_single_stock(start_date, end_date, ts_code):
     frame = pd.read_sql_query(
-        "select trade_date  from t_daily_info_down_log where trade_date >= '{0}' and trade_date <= '{1}' and is_down = false and ts_code = '{2}' and is_confirm is true order by trade_date".format(
+        "select trade_date  from t_daily_info_down_log where trade_date >= '{0}' and trade_date <= '{1}' and is_down = false and ts_code = '{2}' and is_confirm is null order by trade_date".format(
             datetime.datetime.strftime(start_date, '%Y-%m-%d'), datetime.datetime.strftime(end_date, '%Y-%m-%d'),
             ts_code), engine_log_db)
     if len(frame) == 0:
@@ -97,9 +97,9 @@ def process_single_stock(start_date, end_date, ts_code):
                 logger.info("%s在%s到%s期间的日交易数据确认完毕！", ts_code, record['start'], record['end'])
     except Exception as e:
         logger.error(e)
-        if '每分钟最多' in str(e):
+        if '抱歉' in str(e):
             logger.warn("请求频次过高，暂停30秒。")
-            time.sleep(30)
+            time.sleep(60)
     finally:
         conn.close()
 
